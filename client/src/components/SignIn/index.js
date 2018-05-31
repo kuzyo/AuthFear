@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import SignInForm from "./SignInForm";
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -12,18 +13,16 @@ const styles = theme => ({
   })
 });
 
-function SignIn(props) {
-  const { classes } = props;
+const SignIn = ({ classes }) => {
   return (
-    <div>
-      <Paper className={classes.root} elevation={4}>
-        <Typography variant="headline" component="h3">
-          SignIn
-        </Typography>
-      </Paper>
-    </div>
+    <Paper className={classes.root} elevation={4}>
+      <Typography variant="headline" component="h3">
+        Sign In
+      </Typography>
+      <SignInForm />
+    </Paper>
   );
-}
+};
 
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired
