@@ -1,4 +1,5 @@
 const keys = {
+  secret: "secret",
   mongoURL: "mongodb://kuzyo:password@ds137600.mlab.com:37600/auth_fear"
 };
 
