@@ -1,6 +1,7 @@
 const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
+const keys = require("./config/keys");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,18 +11,17 @@ const PORT = 5000;
 let db;
 
 // Initialize connection once
-MongoClient.connect(
-  "mongodb://kuzyo:password@ds137600.mlab.com:37600/auth_fear",
-  { useNewUrlParser: true },
-  function(err, client) {
-    if (err) throw err;
+MongoClient.connect(keys.mongoURL, { useNewUrlParser: true }, function(
+  err,
+  client
+) {
+  if (err) throw err;
 
-    db = client.db("auth_fear");
+  db = client.db("auth_fear");
 
-    // Start the application after the database connection is ready
-    app.listen(`${PORT}`, () => console.log(`Listen on port - ${PORT}`));
-  }
-);
+  // Start the application after the database connection is ready
+  app.listen(`${PORT}`, () => console.log(`Listen on port - ${PORT}`));
+});
 
 app.get("/", (req, res) => res.send("Hello world"));
 
