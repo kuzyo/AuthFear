@@ -1,8 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Formik } from "formik";
+import { signUp } from "../../actions/auth";
 
 const styles = theme => ({
   container: {
@@ -11,29 +14,29 @@ const styles = theme => ({
   }
 });
 
-const SignUpForm = ({ classes }) => {
+const SignUpForm = ({ classes, signUp }) => {
   return (
     <Formik
       initialValues={{
-        name: "",
-        surname: "",
+        firstName: "",
+        lastName: "",
         email: "",
         password: ""
       }}
       onSubmit={values => {
-        console.log(values);
+        signUp(values);
       }}
       render={({ values, handleChange, handleSubmit }) => (
         <form className={classes.container} onSubmit={handleSubmit}>
           <TextField
-            id="name"
-            label="Name"
+            id="firstName"
+            label="First Name"
             margin="normal"
             onChange={handleChange}
           />
           <TextField
-            id="surname"
-            label="Surname"
+            id="lastName"
+            label="Last Name"
             margin="normal"
             onChange={handleChange}
           />
@@ -60,4 +63,6 @@ const SignUpForm = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(SignUpForm);
+export default compose(connect(null, { signUp }), withStyles(styles))(
+  SignUpForm
+);

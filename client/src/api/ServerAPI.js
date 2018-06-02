@@ -28,13 +28,15 @@ class ServerApi {
         "Content-type": "application/json"
       }
       //credentials: 'include'
-      //mode: 'no-cors'
+      // mode: "no-cors"
     };
     this.bodyConverter = body => JSON.stringify(body);
   }
 
   buildUrl(path) {
-    return `http://localhost:5000/api${path}`;
+    // TODO: how to pass CORS correctly
+    // return `http://localhost:5000/api${path}`;
+    return `/api${path}`;
   }
 
   /**
