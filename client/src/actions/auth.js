@@ -1,26 +1,42 @@
 import ServerApi from "../api/ServerAPI";
+import accessTokenStorage from "../helpers/AccessTokenStorage"
+
 export const AUTH_REQUEST = "AUTH_REQUEST";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";
 
 export const signUp = data => dispatch => {
-  const api = new ServerApi();
+  const Api = new ServerApi();
 
   dispatch({ type: AUTH_REQUEST });
 
-  api
+  Api
     .post("/signup", data)
-    .then(response => console.log(response))
-    .catch(e => console.log(e));
+    .then(({ token }) => {
+      dispatch({ type: AUTH_SUCCESS });
+
+      accessTokenStorage.set(token)
+    })
+    .catch(e => {
+      dispatch({ type: AUTH_ERROR });
+      console.log(e);
+    });
 };
 
 export const signIn = data => dispatch => {
-  const api = new ServerApi();
+  const Api = new ServerApi();
 
   dispatch({ type: AUTH_REQUEST });
 
-  api
+  Api
     .post("/signin", data)
-    .then(response => console.log(response))
-    .catch(e => console.log(e));
+    .then(({ token }) => {
+      dispatch({ type: AUTH_SUCCESS });
+
+      accessTokenStorage.set(token)
+    })
+    .catch(e => {
+      dispatch({ type: AUTH_ERROR });
+      console.log(e);
+    });
 };

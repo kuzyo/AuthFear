@@ -1,3 +1,5 @@
+import accessTokenStorage from "../helpers/AccessTokenStorage"
+
 function status(response) {
   if (response.ok) {
     return response;
@@ -24,7 +26,9 @@ class ServerApi {
   constructor() {
     this.opts = {
       headers: {
-        Accept: "application/json",
+        ...(accessTokenStorage.isExist()
+          ? { Authorization: `Token ${accessTokenStorage.get()}` }
+          : {}), Accept: "application/json",
         "Content-type": "application/json"
       }
       //credentials: 'include'
