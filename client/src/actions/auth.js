@@ -15,7 +15,6 @@ export const signUp = data => dispatch => {
 };
 
 export const signIn = data => dispatch => {
-  console.log(data);
   const api = new ServerApi();
 
   dispatch({ type: AUTH_REQUEST });
