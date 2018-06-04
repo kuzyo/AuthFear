@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 
   if (token) {
 
-    jwt.verify(token, keys.secret, function (err, decoded) {
+    jwt.verify(token, keys.secret, function (err, decodedId) {
       if (err) {
 
         return res
@@ -26,8 +26,7 @@ app.use(function (req, res, next) {
           .json({ message: 'Failed to authenticate token.' });
 
       } else {
-        console.log(decoded);
-        req.decoded = decoded;
+        req.userId = decodedId;
         next();
       }
     });
