@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
 
-  var token = req.headers['Authorization'];
+  var token = req.headers['x-access-token'];
 
   if (token) {
 
@@ -45,6 +45,7 @@ app.get("/", (req, res) => res.send("Hello world"));
 
 app.post("/api/signup", function (req, res) {
   const { firstName, lastName, email, password } = req.body;
+  // console.log(req.body);
 
   // See if a user with the given email exists
   User.findOne({ email: email }, function (err, existingUser) {
@@ -74,8 +75,14 @@ app.post("/api/signup", function (req, res) {
 
       const token = jwt.sign(JSON.stringify(user._id), keys.secret);
 
+      const authUser = {
+        userId: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+
       // Repond to request indicating the user was created
-      res.json({ token });
+      res.json({ token, authUser });
     });
   });
 });
@@ -100,16 +107,15 @@ app.post("/api/signin", (req, res) => {
             message: "Authentication failed. Wrong password."
           });
       } else {
-        const { firstname, lastname } = user;
+        const authUser = {
+          userId: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName
+        }
 
-        const payload = {
-          firstname,
-          lastname
-        };
+        var token = jwt.sign(JSON.stringify(user.id), keys.secret);
 
-        var token = jwt.sign(JSON.stringify(payload), keys.secret);
-
-        res.json({ token });
+        res.json({ token, authUser });
       }
     }
   });

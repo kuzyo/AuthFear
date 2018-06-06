@@ -1,4 +1,4 @@
-import accessTokenStorage from "../helpers/AccessTokenStorage"
+import accessTokenStorage from "../api/AccessTokenStorage"
 
 function status(response) {
   if (response.ok) {
@@ -27,7 +27,7 @@ class ServerApi {
     this.opts = {
       headers: {
         ...(accessTokenStorage.isExist()
-          ? { Authorization: `Token ${accessTokenStorage.get()}` }
+          ? { "x-access-token": `${accessTokenStorage.get()}` }
           : {}), Accept: "application/json",
         "Content-type": "application/json"
       }

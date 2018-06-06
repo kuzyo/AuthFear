@@ -1,5 +1,5 @@
 import ServerApi from "../api/ServerAPI";
-import accessTokenStorage from "../helpers/AccessTokenStorage"
+import accessTokenStorage from "../api/AccessTokenStorage"
 
 export const AUTH_REQUEST = "AUTH_REQUEST";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
@@ -12,10 +12,9 @@ export const signUp = data => dispatch => {
 
   Api
     .post("/signup", data)
-    .then(({ token }) => {
-      dispatch({ type: AUTH_SUCCESS });
-
+    .then(({ token, authUser }) => {
       accessTokenStorage.set(token)
+      dispatch({ type: AUTH_SUCCESS, authUser });
     })
     .catch(e => {
       dispatch({ type: AUTH_ERROR });
@@ -30,8 +29,8 @@ export const signIn = data => dispatch => {
 
   Api
     .post("/signin", data)
-    .then(({ token }) => {
-      dispatch({ type: AUTH_SUCCESS });
+    .then(({ token, authUser }) => {
+      dispatch({ type: AUTH_SUCCESS, authUser });
 
       accessTokenStorage.set(token)
     })
